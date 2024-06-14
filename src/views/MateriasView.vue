@@ -45,9 +45,11 @@
 
 
 <script lang="ts" setup>
+import { findAll } from '@/utils/utils';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
+const url = 'http://localhost:3000/materia'
 
 const materias = ref([
     {
@@ -86,15 +88,6 @@ const removeFaltas = (faltas: number) => {
 
 const data = ref()
 
-const fetchData = async () => {
-    try {
-        const response = await axios.get('http://localhost:3000/materia');
-        data.value = response.data;
-    } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-    }
-};
-
 const formulario = ref({
     name: '',
     horas: '',
@@ -103,18 +96,16 @@ const formulario = ref({
 
 const createMateria = async () => {
     try {
-        const response = await axios.post('http://localhost:3000/materia', formulario.value);
+        const response = await axios.post(url, formulario.value);
         console.log('Entrada criada com sucesso:', response.data);
-        await fetchData();
+        await findAll(data,url)
     } catch (error) {
         console.error('Erro ao criar entrada:', error);
     }
 }
 
-
-
 onMounted(async () => {
-    await fetchData();
+    await findAll(data,url)
 });
 
 
