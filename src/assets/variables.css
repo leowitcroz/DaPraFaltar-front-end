@@ -1,0 +1,16 @@
+:root {
+    --primary-color: #2C3E50;
+    /* Azul Escuro */
+    --secondary-color: #3498DB;
+    /* Azul Claro */
+    --background-color: #ECF0F1;
+    /* Cinza Claro */
+    --text-color: #2C3E50;
+    /* Azul Escuro */
+    --secondary-text-color: #95A5A6;
+    /* Cinza Escuro */
+    --button-color: #3498DB;
+    /* Azul Claro */
+    --button-hover-color: #2980B9;
+    /* Azul Hover */
+  }
