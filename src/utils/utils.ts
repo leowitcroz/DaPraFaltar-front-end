@@ -1,25 +1,31 @@
-// import axios from "axios";
-// import { ref, type Ref } from "vue";
-
+import type { AxiosResponse } from "axios";
 import axios from "axios";
 
+export class ApiRequests {
+    private baseUrl: string;
 
-export async function findAll(data: any, url: any) {
-    try {
-        const response = await axios.get(url);
-        data.value = response.data;
-        return data
-    } catch (error) {
-        console.error('Erro ao buscar dados:', error);
+    constructor(baseUrl: string) {
+        this.baseUrl = baseUrl;
     }
-};
 
-export async function create(data: any, url: any, formulario: any) {
-    try {
-        const response = await axios.post(url, formulario.value);
-        console.log('Entrada criada com sucesso:', response.data);
-        await findAll(data, url)
-    } catch (error) {
-        console.error('Erro ao criar entrada:', error);
+    public async get<T>(endpoint: string): Promise<T> {
+        try {
+            const response: AxiosResponse<T> = await axios.get(`${this.baseUrl}${endpoint}`)
+            return response.data;
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+
+    public async post<T>(endpoint: string, data: any): Promise<T> {
+        try {
+            const response: AxiosResponse<T> = await axios.post(`${this.baseUrl}${endpoint}`, data)
+            return response.data
+        }
+        catch (error) {
+            throw error;
+        }
     }
 }
+

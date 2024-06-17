@@ -45,11 +45,12 @@
 
 
 <script lang="ts" setup>
-import { findAll } from '@/utils/utils';
+import type { Materias } from '@/interface/interface';
+import { ApiRequests } from '@/utils/utils';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
-const url = 'http://localhost:3000/materia'
+const api = new ApiRequests('http://localhost:3000/')
 
 const materias = ref([
     {
@@ -94,18 +95,28 @@ const formulario = ref({
     faltas: '',
 })
 
+async function getAll() {
+    try {
+        const materias: Materias = await api.get('materia')
+        data.value = materias;
+        return data
+    } catch (error) {
+        console.error('Error fetching user:', error);
+    }
+}
+
+
 const createMateria = async () => {
     try {
-        const response = await axios.post(url, formulario.value);
-        console.log('Entrada criada com sucesso:', response.data);
-        await findAll(data,url)
+        await api.post('materia', formulario.value)
+        await getAll()
     } catch (error) {
         console.error('Erro ao criar entrada:', error);
     }
 }
 
 onMounted(async () => {
-    await findAll(data,url)
+    getAll()
 });
 
 
