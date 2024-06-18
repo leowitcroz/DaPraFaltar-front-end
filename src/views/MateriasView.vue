@@ -1,15 +1,23 @@
 <template>
-    <div class="container" style="padding: 2%; border: 1px solid red; background-color: antiquewhite;">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div class="container" style="padding: 3%; border-radius: 15px;background-color: var(--background-color)">
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add materia
         </button>
         <div class="row">
             <div class="col-4" v-for="(materia, key) in data" :key="key">
                 <div class="card" style="margin: 3%;">
+                    <div style="width: 100%;"> <button class="btn_close">X</button></div>
                     <h2 class="card-title">{{ materia.name }}</h2>
                     <img :src="imageSrc" alt="Card Image" class="card-image" />
-                    <p class="card-caption">Essa materia tem {{ materia.horas }} então voce pode faltar {{
-                        Math.floor(materia.horas * 0.25) }} e você tem {{ materia.faltas }} faltas</p>
+
+                    <p class="card-caption">
+                        Essa materia tem <span class="span">{{ materia.horas }}
+                            horas</span> então voce pode <span class="span"> faltar {{
+                                Math.floor(materia.horas * 0.25) }}</span> e você tem <span class="span">{{ materia.faltas
+                            }}
+                            faltas</span>
+                    </p>
+
                     <div style="display: flex;">
                         <button @click="addFaltas(materia.faltas)" class="card-button">+</button>
                         <button @click="removeFaltas(materia.faltas)" class="card-button">-</button>
@@ -34,8 +42,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" @click="createMateria">Save changes</button>
+                        <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn " @click="createMateria">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +83,7 @@ const materias = ref([
     },
 ])
 
-const imageSrc = ref('http://localhost:3000/materia');
+const imageSrc = ref('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vX8l-a_UXn6T-uhn-rGHFhIi_A2gczd4zA&s');
 
 const addFaltas = (faltas: number) => {
     faltas = faltas + 1;
@@ -126,8 +134,52 @@ onMounted(async () => {
 
 
 <style scoped>
+.span {
+    color: #ff1f4c;
+}
+
+.btn_close {
+    border: none;
+    background-color: #f3f0f5;
+    border-radius: 10px;
+}
+
+.btn_close:hover{
+    
+    background-color: #e7e6e6;
+}
+
+.modal-content {
+    font-family: "Playwrite IS", cursive;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color)
+}
+
+.modal-header {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.modal-footer {
+    border-top: 2px solid var(--primary-color);
+}
+
+.input_modal {
+    margin: 5%;
+    width: 85%;
+    padding: 2%;
+    border-radius: 5px;
+    margin-left: 7%;
+}
+
+.input_modal::-webkit-input-placeholder {
+    font-size: 16px;
+}
+
 .card {
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd;
+    font-family: "Playwrite IS", cursive;
     border-radius: 8px;
     padding: 16px;
     width: 300px;
@@ -135,6 +187,8 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #b2d9f7;
+    margin-bottom: 6% !important;
 }
 
 .card-title {
@@ -151,9 +205,10 @@ onMounted(async () => {
 
 .card-caption {
     margin: 16px 0;
-    font-size: 14px;
-    color: #555;
+    font-size: 17px;
+    color: var(--primary-color);
     text-align: center;
+    font-weight: 600;
 }
 
 .card-button {
@@ -174,5 +229,27 @@ onMounted(async () => {
 .input_modal {
     margin: 5%;
     ;
+}
+
+.btn {
+    font-family: "Playwrite IS", cursive;
+    box-shadow: inset 0px 1px 0px 0px #dcecfb;
+    background-color: #b2d9f7;
+    border-radius: 6px;
+    display: inline-block;
+    cursor: pointer;
+    color: var(--primary-color);
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    margin-left: 1%;
+    margin-bottom: 2%;
+    padding: 10px;
+}
+
+.btn:hover {
+    background: linear-gradient(to bottom, #a4d3f7 5%, #91cfff 100%);
+    background-color: #b2d9f7;
 }
 </style>
