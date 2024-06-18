@@ -5,22 +5,25 @@
         </button>
         <div class="row">
             <div class="col-4" v-for="(materia, key) in data" :key="key">
-                <div class="card" style="margin: 3%;">
-                    <div style="width: 100%;"> <button class="btn_close">X</button></div>
-                    <h2 class="card-title">{{ materia.name }}</h2>
-                    <img :src="imageSrc" alt="Card Image" class="card-image" />
+                <div style="display: flex; justify-content: center;">
+                    <div class="card" style="margin: 3%;">
+                        <div style="width: 100%;"> <button class="btn_close">X</button></div>
+                        <h2 class="card-title">{{ materia.name }}</h2>
+                        <img :src="imageSrc" alt="Card Image" class="card-image" />
 
-                    <p class="card-caption">
-                        Essa materia tem <span class="span">{{ materia.horas }}
-                            horas</span> então voce pode <span class="span"> faltar {{
-                                Math.floor(materia.horas * 0.25) }}</span> e você tem <span class="span">{{ materia.faltas
-                            }}
-                            faltas</span>
-                    </p>
+                        <p class="card-caption">
+                            Essa materia tem <span class="span">{{ materia.horas }}
+                                horas</span> então voce pode <span class="span"> faltar {{
+                                    Math.floor(materia.horas * 0.25) }}</span> e você tem <span class="span">{{
+                                    materia.faltas
+                                }}
+                                faltas</span>
+                        </p>
 
-                    <div style="display: flex;">
-                        <button @click="addFaltas(materia.faltas)" class="card-button">+</button>
-                        <button @click="removeFaltas(materia.faltas)" class="card-button">-</button>
+                        <div style="display: flex;">
+                            <button @click="addFaltas(materia.faltas)" class="card-button">+</button>
+                            <button @click="removeFaltas(materia.faltas)" class="card-button">-</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,8 +147,8 @@ onMounted(async () => {
     border-radius: 10px;
 }
 
-.btn_close:hover{
-    
+.btn_close:hover {
+
     background-color: #e7e6e6;
 }
 
@@ -243,7 +246,7 @@ onMounted(async () => {
     font-weight: bold;
     padding: 6px 24px;
     text-decoration: none;
-    margin-left: 1%;
+    margin-left: 3%;
     margin-bottom: 2%;
     padding: 10px;
 }
