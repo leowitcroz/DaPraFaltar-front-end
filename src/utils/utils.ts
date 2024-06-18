@@ -27,5 +27,13 @@ export class ApiRequests {
             throw error;
         }
     }
+
+    public async delete(endpoint: string, id: string) {
+        try {
+            await axios.delete(`${this.baseUrl}${endpoint}/${id}`)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }
 

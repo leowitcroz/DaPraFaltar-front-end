@@ -7,8 +7,13 @@
             <div class="col-4" v-for="(materia, key) in data" :key="key">
                 <div style="display: flex; justify-content: center;">
                     <div class="card" style="margin: 3%;">
-                        <div style="width: 100%;"> <button class="btn_close">X</button></div>
+
+                        <div style="width: 100%;">
+                            <button class="btn_close" @click="del(materia.id)">X</button>
+                        </div>
+
                         <h2 class="card-title">{{ materia.name }}</h2>
+
                         <img :src="imageSrc" alt="Card Image" class="card-image" />
 
                         <p class="card-caption">
@@ -117,7 +122,7 @@ async function getAll() {
 }
 
 
-const createMateria = async () => {
+async function createMateria() {
     try {
         await api.post('materia', formulario.value)
         await getAll()
@@ -126,9 +131,19 @@ const createMateria = async () => {
     }
 }
 
+async function del(id: string) {
+    try {
+        await api.delete('materia', id);
+        await getAll();
+    } catch (error) {
+        console.error('Erro ao criar entrada:', error);
+    }
+}
+
 onMounted(async () => {
-    getAll()
-});
+    await getAll()
+}
+);
 
 
 
