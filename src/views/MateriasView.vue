@@ -18,16 +18,23 @@
 
                         <p class="card-caption">
                             Essa materia tem <span class="span">{{ materia.horas }}
-                                horas</span> então voce pode <span class="span"> faltar {{
-                                    Math.floor(materia.horas * 0.25) }}</span> e você tem <span class="span">{{
-                                    materia.faltas
+                                horas </span> 
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas > 0">então voce pode faltar {{
+                                Math.floor(materia.horas * 0.25) - materia.faltas }}
+                            </span> 
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas == 0">  você não pode mais faltar
+                            </span> 
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas < 0"> esta reprovado por falta
+                            </span> 
+                            e você tem <span class="span">{{
+                                materia.faltas
                                 }}
                                 faltas</span>
                         </p>
 
                         <div style="display: flex;">
-                            <button @click="addFaltas(materia.faltas)" class="card-button">+</button>
-                            <button @click="removeFaltas(materia.faltas)" class="card-button">-</button>
+                            <button @click="addFaltas(materia.faltas, materia.id)" class="card-button">+</button>
+                            <button @click="removeFaltas(materia.faltas, materia.id)" class="card-button">-</button>
                         </div>
                     </div>
                 </div>
@@ -74,15 +81,7 @@ const api = new ApiRequests('http://localhost:3000/')
 
 const imageSrc = ref('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vX8l-a_UXn6T-uhn-rGHFhIi_A2gczd4zA&s');
 
-const addFaltas = (faltas: number) => {
-    faltas = faltas + 1;
-    return faltas
 
-};
-const removeFaltas = (faltas: number) => {
-    faltas = faltas - 1;
-    return faltas
-};
 
 const data = ref()
 
@@ -91,6 +90,30 @@ const formulario = ref({
     horas: '',
     faltas: '',
 })
+
+async function addFaltas(faltas: string, id: string) {
+    let info = Number(faltas)
+    info = info + 1
+    formulario.value.faltas = info.toString()
+
+
+    await update(id)
+    await getAll()
+
+};
+
+async function removeFaltas(faltas: string, id: string) {
+    let info = Number(faltas)
+    info = info - 1
+    formulario.value.faltas = info.toString()
+
+
+    await update(id)
+    await getAll()
+
+};
+
+
 
 async function getAll() {
     try {
@@ -121,7 +144,7 @@ async function del(id: string) {
     }
 }
 
-async function update(id: string,) {
+async function update(id: string) {
     try {
         await api.update('materia', id, formulario.value)
         await getAll();
