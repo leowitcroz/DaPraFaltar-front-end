@@ -7,9 +7,12 @@
             <div class="col-4" v-for="(materia, key) in data" :key="key">
                 <div style="display: flex; justify-content: center;">
                     <div class="card" style="margin: 3%;">
-
-                        <div style="width: 100%;">
-                            <button class="btn_close" @click="del(materia.id)">X</button>
+                        <div style="width: 100%; display: flex;justify-content: space-between;">
+                            <button class="btn_close" @click="del(materia.id)">
+                                <span class="material-icons">close</span></button>
+                            <button class="btn_close ">
+                                <span class="material-icons">more_vert</span>
+                            </button>
                         </div>
 
                         <h2 class="card-title">{{ materia.name }}</h2>
@@ -18,17 +21,20 @@
 
                         <p class="card-caption">
                             Essa materia tem <span class="span">{{ materia.horas }}
-                                horas </span> 
-                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas > 0">então voce pode faltar {{
-                                Math.floor(materia.horas * 0.25) - materia.faltas }}
-                            </span> 
-                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas == 0">  você não pode mais faltar
-                            </span> 
-                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas < 0"> esta reprovado por falta
-                            </span> 
+                                horas </span>
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas > 0">então voce
+                                pode faltar {{
+                                    Math.floor(materia.horas * 0.25) - materia.faltas }}
+                            </span>
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas == 0"> você não
+                                pode mais faltar
+                            </span>
+                            <span class="span" v-if="Math.floor(materia.horas * 0.25) - materia.faltas < 0"> esta
+                                reprovado por falta
+                            </span>
                             e você tem <span class="span">{{
                                 materia.faltas
-                                }}
+                            }}
                                 faltas</span>
                         </p>
 
@@ -169,14 +175,17 @@ onMounted(async () => {
     color: #ff1f4c;
 }
 
+
 .btn_close {
+    display: flex;
+    align-items: center;
     border: none;
     background-color: #f3f0f5;
     border-radius: 10px;
+    padding: 5px;
 }
 
 .btn_close:hover {
-
     background-color: #e7e6e6;
 }
 
