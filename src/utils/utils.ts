@@ -35,5 +35,14 @@ export class ApiRequests {
             console.log(e)
         }
     }
+
+    public async update(endpoint: string, id: string, data: any) {
+        try {
+            await axios.patch(`${this.baseUrl}${endpoint}/${id}`, data)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
 }
 

@@ -32,30 +32,34 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" ref="exampleModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Materias</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="display: flex; flex-direction: column;width: 70%; padding: 5%;">
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Materias</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" style="display: flex; flex-direction: column;width: 70%; padding: 5%;">
+                            <input class="input_modal" type="text" placeholder="nome" v-model="formulario.name">
+                            <input class="input_modal" type="text" placeholder="horas" v-model="formulario.horas">
+                            <input class="input_modal" type="text" placeholder="faltas" v-model="formulario.faltas">
 
-                        <input class="input_modal" type="text" placeholder="nome" v-model="formulario.name">
-                        <input class="input_modal" type="text" placeholder="horas" v-model="formulario.horas">
-                        <input class="input_modal" type="text" placeholder="faltas" v-model="formulario.faltas">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn " @click="createMateria">Save changes</button>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn " @click="createMateria" data-bs-dismiss="modal">Save
+                                changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+
     </div>
 </template>
 
@@ -63,33 +67,10 @@
 <script lang="ts" setup>
 import type { Materias } from '@/interface/interface';
 import { ApiRequests } from '@/utils/utils';
-import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import $ from 'jquery';
 
 const api = new ApiRequests('http://localhost:3000/')
-
-const materias = ref([
-    {
-        name: 'fisica',
-        horas: 60,
-        faltas: 2
-    },
-    {
-        name: 'fisica2',
-        horas: 30,
-        faltas: 2
-    },
-    {
-        name: 'fisica3',
-        horas: 30,
-        faltas: 5
-    },
-    {
-        name: 'fisica4',
-        horas: 30,
-        faltas: 2
-    },
-])
 
 const imageSrc = ref('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vX8l-a_UXn6T-uhn-rGHFhIi_A2gczd4zA&s');
 
@@ -121,7 +102,6 @@ async function getAll() {
     }
 }
 
-
 async function createMateria() {
     try {
         await api.post('materia', formulario.value)
@@ -131,12 +111,22 @@ async function createMateria() {
     }
 }
 
+
 async function del(id: string) {
     try {
         await api.delete('materia', id);
         await getAll();
     } catch (error) {
         console.error('Erro ao criar entrada:', error);
+    }
+}
+
+async function update(id: string,) {
+    try {
+        await api.update('materia', id, formulario.value)
+        await getAll();
+    } catch (e) {
+        console.log(e)
     }
 }
 
