@@ -14,8 +14,7 @@
 <script lang="ts" setup>
 import router from '@/router';
 import { ApiRequests } from '@/utils/utils';
-import { ref } from 'vue';
-import { request_ } from '../stores/store';
+import { onMounted, ref } from 'vue';
 
 const api = new ApiRequests('http://localhost:3000/')
 
@@ -28,17 +27,28 @@ const aluno = ref({
 async function login() {
     console.log(aluno.value.nome)
 
-    request_.value = await api.post('auth/login', aluno.value)
-    
+    const request: any = await api.post('auth/login', aluno.value)
 
-    if (request_) {
+    const data = request.data
+    const token = request.token.accessToken
+
+    localStorage.setItem('authToken', token)
+
+    if (request) {
         router.push({ name: 'materia' });
+        aluno.value.nome = ''
+        aluno.value.password = ''
 
     }
 
 
-
 }
+
+onMounted(async () => {
+    localStorage.removeItem("authToken")
+})
+
+
 
 
 </script>

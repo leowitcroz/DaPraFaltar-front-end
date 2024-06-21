@@ -82,15 +82,13 @@ import type { Materias } from '@/interface/interface';
 import { ApiRequests } from '@/utils/utils';
 import { onMounted, ref } from 'vue';
 import $ from 'jquery';
-import { request_ } from '../stores/store';
+import { data } from '@/stores/store';
 
 const api = new ApiRequests('http://localhost:3000/')
 
 const imageSrc = ref('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vX8l-a_UXn6T-uhn-rGHFhIi_A2gczd4zA&s');
 
 
-
-const data = ref()
 
 const formulario = ref({
     name: '',
@@ -162,7 +160,6 @@ async function update(id: string) {
 
 onMounted(async () => {
     await getAll()
-    console.log(data.value)
 }
 );
 
