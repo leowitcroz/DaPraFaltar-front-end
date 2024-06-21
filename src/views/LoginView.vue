@@ -2,9 +2,9 @@
     <div class="container" style="display: flex; justify-content: center">
         <div class="login_box">
             <h1 class="logo">Dá pra Faltar?</h1>
-            <input class="input" type="text" placeholder="username" v-model="user">
-            <input class="input" type="password" placeholder="password" v-model="passoword">
-            <button class="button" @click="login(user, passoword)">Login</button>
+            <input class="input" type="text" placeholder="username" v-model="aluno.nome">
+            <input class="input" type="password" placeholder="password" v-model="aluno.password">
+            <button class="button" @click="login()">Login</button>
         </div>
 
     </div>
@@ -13,14 +13,30 @@
 
 <script lang="ts" setup>
 import router from '@/router';
+import { ApiRequests } from '@/utils/utils';
 import { ref } from 'vue';
+import { request_ } from '../stores/store';
 
-const user = ref("")
-const passoword = ref("")
+const api = new ApiRequests('http://localhost:3000/')
 
-const login = (user: string, passoword: string) => {
-    console.log(user, passoword)
-    router.push({ name: 'materia' });
+const aluno = ref({
+    nome: '',
+    password: ''
+})
+
+
+async function login() {
+    console.log(aluno.value.nome)
+
+    request_.value = await api.post('auth/login', aluno.value)
+    
+
+    if (request_) {
+        router.push({ name: 'materia' });
+
+    }
+
+
 
 }
 

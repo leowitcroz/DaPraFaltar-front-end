@@ -1,5 +1,6 @@
 import type { AxiosResponse } from "axios";
 import axios from "axios";
+import { request_ } from "../stores/store";
 
 export class ApiRequests {
     private baseUrl: string;
@@ -10,7 +11,12 @@ export class ApiRequests {
 
     public async get<T>(endpoint: string): Promise<T> {
         try {
-            const response: AxiosResponse<T> = await axios.get(`${this.baseUrl}${endpoint}`)
+            console.log(request_.value.data)
+            const response: AxiosResponse<T> = await axios.get(`${this.baseUrl}${endpoint}`,{
+                headers: {
+                    'Authorization': `Bearer ${request_.value.token.accessToken}`
+                }
+            })
             return response.data;
         }
         catch (error) {

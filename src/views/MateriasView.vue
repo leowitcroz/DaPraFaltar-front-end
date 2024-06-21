@@ -15,7 +15,7 @@
                             </button>
                         </div>
 
-                        <h2 class="card-title">{{ materia.name }}</h2>
+                        <h2 class="card-title">{{ materia.nome }}</h2>
 
                         <img :src="imageSrc" alt="Card Image" class="card-image" />
 
@@ -82,6 +82,7 @@ import type { Materias } from '@/interface/interface';
 import { ApiRequests } from '@/utils/utils';
 import { onMounted, ref } from 'vue';
 import $ from 'jquery';
+import { request_ } from '../stores/store';
 
 const api = new ApiRequests('http://localhost:3000/')
 
@@ -161,6 +162,7 @@ async function update(id: string) {
 
 onMounted(async () => {
     await getAll()
+    console.log(data.value)
 }
 );
 
