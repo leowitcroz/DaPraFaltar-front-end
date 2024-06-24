@@ -13,7 +13,7 @@ export class ApiRequests {
         const token = localStorage.getItem('authToken')
 
         try {
-            const response: AxiosResponse<T> = await axios.get(`${this.baseUrl}${endpoint}`,{
+            const response: AxiosResponse<T> = await axios.get(`${this.baseUrl}${endpoint}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -26,8 +26,16 @@ export class ApiRequests {
     }
 
     public async post<T>(endpoint: string, data: any): Promise<T> {
+
+        const token = localStorage.getItem('authToken')
+        console.log(data)
+
         try {
-            const response: AxiosResponse<T> = await axios.post(`${this.baseUrl}${endpoint}`, data)
+            const response: AxiosResponse<T> = await axios.post(`${this.baseUrl}${endpoint}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
             return response.data
         }
         catch (error) {
@@ -36,8 +44,14 @@ export class ApiRequests {
     }
 
     public async delete(endpoint: string, id: string) {
+
+        const token = localStorage.getItem('authToken')
         try {
-            await axios.delete(`${this.baseUrl}${endpoint}/${id}`)
+            await axios.delete(`${this.baseUrl}${endpoint}/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
         } catch (e) {
             console.log(e)
         }
@@ -45,7 +59,13 @@ export class ApiRequests {
 
     public async update(endpoint: string, id: string, data: any) {
         try {
-            await axios.patch(`${this.baseUrl}${endpoint}/${id}`, data)
+
+            const token = localStorage.getItem('authToken')
+            await axios.patch(`${this.baseUrl}${endpoint}/${id}`, data, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
         }
         catch (e) {
             console.log(e)

@@ -1,6 +1,6 @@
 <template>
     <div class="container" style="padding: 3%; border-radius: 15px;background-color: var(--background-color)">
-        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#createModal">
             Add materia
         </button>
         <div class="row">
@@ -8,9 +8,9 @@
                 <div style="display: flex; justify-content: center;">
                     <div class="card" style="margin: 3%;">
                         <div style="width: 100%; display: flex;justify-content: space-between;">
-                            <button class="btn_close" @click="del(materia.id)">
+                            <button class="btn_close" @click="del(materia.idmaterias)">
                                 <span class="material-icons">close</span></button>
-                            <button class="btn_close ">
+                            <button class="btn_close " data-bs-toggle="modal" data-bs-target="#updateModal">
                                 <span class="material-icons">more_vert</span>
                             </button>
                         </div>
@@ -34,42 +34,75 @@
                             </span>
                             e você tem <span class="span">{{
                                 materia.faltas
-                            }}
+                                }}
                                 faltas</span>
                         </p>
 
                         <div style="display: flex;">
-                            <button @click="addFaltas(materia.faltas, materia.id)" class="card-button">+</button>
-                            <button @click="removeFaltas(materia.faltas, materia.id)" class="card-button">-</button>
+                            <button @click="addFaltas(materia.faltas, materia.idmaterias)" class="card-button">+</button>
+                            <button @click="removeFaltas(materia.faltas, materia.idmaterias)" class="card-button">-</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true" ref="exampleModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Materias</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <!-- create modal -->
+                <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
+                    aria-hidden="true" ref="createModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="createModalLabel">Materias</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body"
+                                style="display: flex; flex-direction: column;width: 70%; padding: 5%;">
+
+                                <input class="input_modal" type="text" placeholder="nome" v-model="formulario.nome">
+                                <input class="input_modal" type="text" placeholder="horas" v-model="formulario.horas">
+                                <input class="input_modal" type="text" placeholder="faltas" v-model="formulario.faltas">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn " @click="createMateria" data-bs-dismiss="modal">Save
+                                    changes</button>
+                            </div>
                         </div>
-                        <div class="modal-body" style="display: flex; flex-direction: column;width: 70%; padding: 5%;">
+                    </div>
+                </div>
 
-                            <input class="input_modal" type="text" placeholder="nome" v-model="formulario.name">
-                            <input class="input_modal" type="text" placeholder="horas" v-model="formulario.horas">
-                            <input class="input_modal" type="text" placeholder="faltas" v-model="formulario.faltas">
+                <!-- update modal -->
+                <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+                    aria-hidden="true" ref="updateModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="updateModalLabel">Editar Materias</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body"
+                                style="display: flex; flex-direction: column;width: 70%; padding: 5%;">
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn " @click="createMateria" data-bs-dismiss="modal">Save
-                                changes</button>
+                                <input class="input_modal" type="text" placeholder="nome" v-model="formulario.nome">
+                                <input class="input_modal" type="text" placeholder="horas" v-model="formulario.horas">
+                                <input class="input_modal" type="text" placeholder="faltas" v-model="formulario.faltas">
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn " data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn " @click="update(materia.idmaterias)"
+                                    data-bs-dismiss="modal">Save
+                                    changes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
 
 
@@ -91,29 +124,29 @@ const imageSrc = ref('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8vX
 
 
 const formulario = ref({
-    name: '',
+    nome: '',
     horas: '',
     faltas: '',
 })
 
-async function addFaltas(faltas: string, id: string) {
+async function addFaltas(faltas: string, idmaterias: string) {
     let info = Number(faltas)
     info = info + 1
     formulario.value.faltas = info.toString()
 
 
-    await update(id)
+    await update(idmaterias)
     await getAll()
 
 };
 
-async function removeFaltas(faltas: string, id: string) {
+async function removeFaltas(faltas: string, idmaterias: string) {
     let info = Number(faltas)
     info = info - 1
     formulario.value.faltas = info.toString()
 
 
-    await update(id)
+    await update(idmaterias)
     await getAll()
 
 };
@@ -140,18 +173,18 @@ async function createMateria() {
 }
 
 
-async function del(id: string) {
+async function del(idmaterias: string) {
     try {
-        await api.delete('materia', id);
+        await api.delete('materia', idmaterias);
         await getAll();
     } catch (error) {
         console.error('Erro ao criar entrada:', error);
     }
 }
 
-async function update(id: string) {
+async function update(idmaterias: string) {
     try {
-        await api.update('materia', id, formulario.value)
+        await api.update('materia', idmaterias, formulario.value)
         await getAll();
     } catch (e) {
         console.log(e)
